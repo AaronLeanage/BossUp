@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+
+# Decompiled game code for local reference only. Never commit.
+.decompiled/

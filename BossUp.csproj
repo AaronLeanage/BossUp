@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>BossUp</AssemblyName>
+    <RootNamespace>BossUp</RootNamespace>
+    <Version>0.1.0</Version>
+
+    <!-- ModBuildUtilities settings. Auto-referencing every Workshop/local mod DLL pulls in
+         duplicate Harmony copies and unrelated mods, so only the game DLLs are auto-referenced
+         and our three dependencies are referenced explicitly below. -->
+    <EnableAutoWorkshopReferences>false</EnableAutoWorkshopReferences>
+    <EnableAutoLocalModsReferences>false</EnableAutoLocalModsReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.13.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- WorkshopPath is resolved by ModBuildUtilities inside a target, so these references
+       have to be added from a target that runs after it. -->
+  <Target Name="BossUpWorkshopReferences" AfterTargets="T_ReferenceLibraries">
+    <ItemGroup>
+      <Reference Include="$(WorkshopPath)\2898069883\KitchenLib-Workshop.dll" Private="false" />
+      <Reference Include="$(WorkshopPath)\2898033283\0Harmony.dll" Private="false" />
+      <Reference Include="$(WorkshopPath)\2949018507\PreferenceSystem-Workshop.dll" Private="false" />
+    </ItemGroup>
+  </Target>
+
+</Project>
