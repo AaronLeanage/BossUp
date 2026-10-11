@@ -52,4 +52,4 @@ Every player needs BossUp! installed. The host controls all boss settings; every
 
 ## Known limitations
 
-- Some dishes with unusual ordering rules may be left out of a boss's order.
+- Some dishes with unusual ordering rules (such as tacos or cakes) may be left out of a boss's order.
