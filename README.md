@@ -7,7 +7,7 @@ Every few days, a boss walks into your restaurant and orders **every dish on you
 ## Features
 
 - **Boss customers** that order every item your restaurant currently offers, in every course.
-- **Single boss or a full boss table.** Face one very hungry customer, or a whole group sized to your current tables.
+- **Single customer or a full boss table.** Face one very hungry customer, or a whole group sized to your current tables.
 - **Configurable schedule.** Bosses can turn up every day or as rarely as every 15 days, and keep coming in overtime.
 - **During the day or at closing time.** Choose whether the boss arrives mid-service or as the last group of the day.
 - **Arrival countdown and warning.** A "Boss in Ns" countdown before they arrive and a gentle "Warning: Boss" on arrival. The warning uses a soft fade, never a hard flash.
@@ -23,15 +23,15 @@ All settings are in the **BossUp!** preferences menu (main menu and pause menu).
 | Bosses | Off / On | On |
 | Boss frequency | Every day to every 15 days | Every 15 days |
 | Arrival | During day / End of day | End of day |
-| Boss party | Single boss / Full group | Single boss |
-| Orders | Menu items / All variants | Menu items |
+| Boss party | Single customer / Full group | Single customer |
+| Orders | Menu items / Include variants | Menu items |
 | Max orders per phase | 4 / 8 / 12 / Unlimited | 8 |
 | Patience scaling | Low / Medium / High | Medium |
 | Bonus multiplier | 1x / 1.5x / 2x / 2.5x / 3x / 4x / 5x | 3x |
 | Arrival countdown | Off / 10s / 20s / 30s | 20s |
 | Boss warning | Off / On | On |
 
-**Orders:** *Menu items* means one of each dish on the menu. *All variants* means one of each version of a dish (for example, each burger topping combination), so use **Max orders per phase** to keep it sane.
+**Orders:** *Menu items* means one of each dish on the menu. *Include variants* means one of each version of a dish (for example, each burger topping combination), so use **Max orders per phase** to keep it sane.
 
 ## Requirements
 

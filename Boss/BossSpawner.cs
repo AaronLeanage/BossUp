@@ -39,7 +39,7 @@ namespace BossUp.Boss
 
         private static int PickGroupSize(EntityManager em)
         {
-            if (BossSettings.Party == BossParty.SingleBoss)
+            if (BossSettings.Party == BossParty.SingleCustomer)
                 return 1;
 
             int min = 1;

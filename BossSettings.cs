@@ -11,14 +11,14 @@ namespace BossUp
 
     public enum BossParty
     {
-        SingleBoss = 0,
+        SingleCustomer = 0,
         FullGroup = 1
     }
 
     public enum BossOrderMode
     {
         MenuItems = 0,
-        AllVariants = 1
+        IncludeVariants = 1
     }
 
     /// <summary>
@@ -60,6 +60,8 @@ namespace BossUp
             string[] dayStrings = days.Select(d => d == 1 ? "Every day" : $"Every {d} days").ToArray();
 
             _prefs = new PreferenceSystemManager(Mod.MOD_GUID, Mod.MOD_NAME);
+            // Split into submenus so no page runs off the bottom of the screen. Every level is
+            // blocked for clients, since only the host's values are used.
             _prefs
                 .AddLabel("BossUp! (host only)")
                 .AddHostStatusConditionalBlocker()
@@ -67,40 +69,59 @@ namespace BossUp
                 .AddLabel("Bosses")
                 .AddOption(ENABLED, true, new[] { false, true }, new[] { "Off", "On" })
 
-                .AddLabel("Boss frequency")
-                .AddOption(EVERY_X_DAYS, 15, days, dayStrings)
+                .AddSubmenu("Schedule", "Schedule")
+                    .AddLabel("Schedule (host only)")
+                    .AddHostStatusConditionalBlocker()
+                    .AddLabel("Boss frequency")
+                    .AddOption(EVERY_X_DAYS, 15, days, dayStrings)
+                    .AddLabel("Arrival")
+                    .AddOption(ARRIVAL, (int)BossArrival.EndOfDay,
+                        new[] { (int)BossArrival.DuringDay, (int)BossArrival.EndOfDay },
+                        new[] { "During day", "End of day" })
+                    .ConditionalBlockerDone()
+                    .AddSpacer()
+                .SubmenuDone()
 
-                .AddLabel("Arrival")
-                .AddOption(ARRIVAL, (int)BossArrival.EndOfDay,
-                    new[] { (int)BossArrival.DuringDay, (int)BossArrival.EndOfDay },
-                    new[] { "During day", "End of day" })
+                .AddSubmenu("Orders", "Orders")
+                    .AddLabel("Orders (host only)")
+                    .AddHostStatusConditionalBlocker()
+                    .AddLabel("Boss party")
+                    .AddOption(PARTY, (int)BossParty.SingleCustomer,
+                        new[] { (int)BossParty.SingleCustomer, (int)BossParty.FullGroup },
+                        new[] { "Single customer", "Full group" })
+                    .AddLabel("Orders")
+                    .AddOption(ORDER_MODE, (int)BossOrderMode.MenuItems,
+                        new[] { (int)BossOrderMode.MenuItems, (int)BossOrderMode.IncludeVariants },
+                        new[] { "Menu items", "Include variants" })
+                    .AddLabel("Max orders per phase")
+                    .AddOption(MAX_ORDERS_PER_PHASE, 8, new[] { 4, 8, 12, 0 }, new[] { "4", "8", "12", "Unlimited" })
+                    .ConditionalBlockerDone()
+                    .AddSpacer()
+                .SubmenuDone()
 
-                .AddLabel("Boss party")
-                .AddOption(PARTY, (int)BossParty.SingleBoss,
-                    new[] { (int)BossParty.SingleBoss, (int)BossParty.FullGroup },
-                    new[] { "Single boss", "Full group" })
+                .AddSubmenu("Difficulty & rewards", "DifficultyRewards")
+                    .AddLabel("Difficulty & rewards (host only)")
+                    .AddHostStatusConditionalBlocker()
+                    .AddLabel("Patience scaling")
+                    .AddOption(PATIENCE_SCALING, 0.5f, new[] { 0.25f, 0.5f, 1f }, new[] { "Low", "Medium", "High" })
+                    .AddLabel("Bonus multiplier")
+                    .AddOption(BONUS_MULTIPLIER, 3f,
+                        new[] { 1f, 1.5f, 2f, 2.5f, 3f, 4f, 5f },
+                        new[] { "1x", "1.5x", "2x", "2.5x", "3x", "4x", "5x" })
+                    .ConditionalBlockerDone()
+                    .AddSpacer()
+                .SubmenuDone()
 
-                .AddLabel("Orders")
-                .AddOption(ORDER_MODE, (int)BossOrderMode.MenuItems,
-                    new[] { (int)BossOrderMode.MenuItems, (int)BossOrderMode.AllVariants },
-                    new[] { "Menu items", "All variants" })
-
-                .AddLabel("Max orders per phase")
-                .AddOption(MAX_ORDERS_PER_PHASE, 8, new[] { 4, 8, 12, 0 }, new[] { "4", "8", "12", "Unlimited" })
-
-                .AddLabel("Patience scaling")
-                .AddOption(PATIENCE_SCALING, 0.5f, new[] { 0.25f, 0.5f, 1f }, new[] { "Low", "Medium", "High" })
-
-                .AddLabel("Bonus multiplier")
-                .AddOption(BONUS_MULTIPLIER, 3f,
-                    new[] { 1f, 1.5f, 2f, 2.5f, 3f, 4f, 5f },
-                    new[] { "1x", "1.5x", "2x", "2.5x", "3x", "4x", "5x" })
-
-                .AddLabel("Arrival countdown")
-                .AddOption(COUNTDOWN_SECONDS, 20, new[] { 0, 10, 20, 30 }, new[] { "Off", "10s", "20s", "30s" })
-
-                .AddLabel("Boss warning")
-                .AddOption(WARNING, true, new[] { false, true }, new[] { "Off", "On" })
+                .AddSubmenu("Alerts", "Alerts")
+                    .AddLabel("Alerts (host only)")
+                    .AddHostStatusConditionalBlocker()
+                    .AddLabel("Arrival countdown")
+                    .AddOption(COUNTDOWN_SECONDS, 20, new[] { 0, 10, 20, 30 }, new[] { "Off", "10s", "20s", "30s" })
+                    .AddLabel("Boss warning")
+                    .AddOption(WARNING, true, new[] { false, true }, new[] { "Off", "On" })
+                    .ConditionalBlockerDone()
+                    .AddSpacer()
+                .SubmenuDone()
 
                 .ConditionalBlockerDone()
                 .AddSpacer()
