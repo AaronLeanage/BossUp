@@ -25,12 +25,15 @@ All settings are in the **BossUp!** preferences menu (main menu and pause menu).
 | Arrival | During day / End of day | End of day |
 | Boss party | Single customer / Full group | Single customer |
 | Orders | Menu items / Include variants | Menu items |
+| Min orders per phase | Off / 3 / 5 / 8 | Off |
 | Max orders per phase | 4 / 8 / 12 / Unlimited | 8 |
 | Patience scaling | Low / Medium / High | Medium |
 | Bonus multiplier | 1x / 1.5x / 2x / 2.5x / 3x / 4x / 5x | 3x |
 | Boss marker on timeline | Off / On | On |
 
 **Orders:** *Menu items* means one of each dish on the menu. *Include variants* means one of each version of a dish (for example, each burger topping combination), so use **Max orders per phase** to keep it sane.
+
+**Min orders per phase:** on a small menu, the boss repeats dishes until they've ordered at least this many per course (sides aren't padded). Max wins if it's lower than Min.
 
 ## Requirements
 

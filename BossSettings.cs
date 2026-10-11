@@ -32,6 +32,7 @@ namespace BossUp
         private const string ARRIVAL = "Arrival";
         private const string PARTY = "Party";
         private const string ORDER_MODE = "OrderMode";
+        private const string MIN_ORDERS_PER_PHASE = "MinOrdersPerPhase";
         private const string MAX_ORDERS_PER_PHASE = "MaxOrdersPerPhase";
         private const string PATIENCE_SCALING = "PatienceScaling";
         private const string BONUS_MULTIPLIER = "BonusMultiplier";
@@ -44,6 +45,8 @@ namespace BossUp
         public static BossArrival Arrival => (BossArrival)_prefs.Get<int>(ARRIVAL);
         public static BossParty Party => (BossParty)_prefs.Get<int>(PARTY);
         public static BossOrderMode OrderMode => (BossOrderMode)_prefs.Get<int>(ORDER_MODE);
+        /// <summary>Min orders per member per phase, repeating dishes if the menu is small. 0 means off. Max wins if lower.</summary>
+        public static int MinOrdersPerPhase => _prefs.Get<int>(MIN_ORDERS_PER_PHASE);
         /// <summary>Max orders per member per phase. 0 means unlimited.</summary>
         public static int MaxOrdersPerPhase => _prefs.Get<int>(MAX_ORDERS_PER_PHASE);
         /// <summary>Extra WaitForFood patience bars granted per extra item ordered.</summary>
@@ -95,6 +98,8 @@ namespace BossUp
                     .AddOption(ORDER_MODE, (int)BossOrderMode.MenuItems,
                         new[] { (int)BossOrderMode.MenuItems, (int)BossOrderMode.IncludeVariants },
                         new[] { "Menu items", "Include variants" })
+                    .AddLabel("Min orders per phase")
+                    .AddOption(MIN_ORDERS_PER_PHASE, 0, new[] { 0, 3, 5, 8 }, new[] { "Off", "3", "5", "8" })
                     .AddLabel("Max orders per phase")
                     .AddOption(MAX_ORDERS_PER_PHASE, 8, new[] { 4, 8, 12, 0 }, new[] { "4", "8", "12", "Unlimited" })
                     .ConditionalBlockerDone()

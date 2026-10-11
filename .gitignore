@@ -6,3 +6,4 @@ obj/
 
 # Decompiled game code for local reference only. Never commit.
 .decompiled/
+dist/
