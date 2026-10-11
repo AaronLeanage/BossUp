@@ -1,9 +1,13 @@
 using System.Reflection;
+using BossUp.Views;
 using HarmonyLib;
+using Kitchen;
 using KitchenLib;
 using KitchenLib.Logging;
+using KitchenLib.Utils;
 using KitchenMods;
 using UnityEngine;
+using KitchenLogger = KitchenLib.Logging.KitchenLogger;
 
 namespace BossUp
 {
@@ -22,11 +26,7 @@ namespace BossUp
 
         protected override void OnInitialise()
         {
-#if DEBUG
-            Logger.LogWarning($"{MOD_NAME} v{MOD_VERSION} DEBUG build loaded. F7 spawns a boss group. Do not upload this build.");
-#else
             Logger.LogInfo($"{MOD_NAME} v{MOD_VERSION} loaded");
-#endif
         }
 
         protected override void OnPostActivate(KitchenMods.Mod mod)
@@ -38,6 +38,8 @@ namespace BossUp
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             BossSettings.Register();
+
+            ViewUtils.RegisterView(BossTimelineView.VIEW_TYPE_NAME, typeof(SBossTimelineView), typeof(BossTimelineView), ViewMode.Screen, Vector3.zero);
         }
     }
 }

@@ -23,15 +23,6 @@ namespace BossUp.Systems
         private EntityQuery _customerGroups;
 
         private int _day = -1;
-        private bool _isBossDay;
-        private bool _done;
-        private bool _countdownAnnounced;
-
-        /// <summary>During day: the time of day (0 to 1) the boss arrives.</summary>
-        private float _arrivalTimeOfDay = -1f;
-
-        /// <summary>End of day: seconds since the day began that the boss arrives, once the countdown has started.</summary>
-        private float _arrivalSeconds = -1f;
 
         protected override void Initialise()
         {
@@ -45,6 +36,7 @@ namespace BossUp.Systems
             if (Has<SPracticeMode>() || !Has<SIsDayTime>() || !Require(out STime time))
             {
                 _day = -1;
+                BossToday.Clear();
                 return;
             }
 
@@ -52,7 +44,7 @@ namespace BossUp.Systems
             if (day != _day)
                 StartDay(day);
 
-            if (!_isBossDay || _done || !BossSettings.Enabled)
+            if (!BossToday.IsBossDay || BossToday.Arrived || !BossSettings.Enabled)
                 return;
 
             if (BossSettings.Arrival == BossArrival.DuringDay)
@@ -64,60 +56,50 @@ namespace BossUp.Systems
         private void StartDay(int day)
         {
             _day = day;
-            _done = false;
-            _countdownAnnounced = false;
-            _arrivalSeconds = -1f;
+            BossToday.Clear();
 
             int every = Mathf.Max(1, BossSettings.EveryXDays);
-            _isBossDay = BossSettings.Enabled && day > 0 && day % every == 0;
-            _arrivalTimeOfDay = Random.Range(0.3f, 0.7f);
+            BossToday.IsBossDay = BossSettings.Enabled && day > 0 && day % every == 0;
+            if (!BossToday.IsBossDay)
+                return;
 
-            if (_isBossDay)
-                Mod.Logger.LogInfo($"Day {day} is a boss day ({BossSettings.Arrival})");
+            // End-of-day bosses arrive after the last normal group, so their marker sits at closing time.
+            BossToday.ArrivalTime = BossSettings.Arrival == BossArrival.DuringDay
+                ? Random.Range(0.3f, 0.7f)
+                : 1f;
+
+            Mod.Logger.LogInfo($"Day {day} is a boss day ({BossSettings.Arrival}" +
+                               (BossSettings.Arrival == BossArrival.DuringDay ? $", arriving {Mathf.RoundToInt(BossToday.ArrivalTime * 100f)}% through the day)" : ")"));
         }
 
         private void UpdateDuringDay(STime time)
         {
-            float countdownStart = _arrivalTimeOfDay - BossSettings.CountdownSeconds / Mathf.Max(1f, time.DayLength);
-            if (time.TimeOfDayUnbounded >= countdownStart)
-                AnnounceCountdown();
-
-            if (time.TimeOfDayUnbounded >= _arrivalTimeOfDay)
-                Spawn();
+            if (time.TimeOfDayUnbounded >= BossToday.ArrivalTime)
+                Spawn(time);
         }
 
         private void UpdateEndOfDay(STime time)
         {
-            // The countdown starts once the last normal group of the day has arrived.
-            if (_arrivalSeconds < 0f && _scheduledCustomers.IsEmpty && time.TimeOfDayUnbounded > 0.25f)
-            {
-                _arrivalSeconds = time.SecondsSinceDayBegan + BossSettings.CountdownSeconds;
-                AnnounceCountdown();
-            }
-
-            if (_arrivalSeconds < 0f)
-                return;
-
+            bool lastGroupArrived = _scheduledCustomers.IsEmpty && time.TimeOfDayUnbounded > 0.25f;
             // If everyone has left after closing time, the day would end this frame. Arrive now instead.
             bool dayAboutToEnd = time.TimeOfDayUnbounded >= 1f && _customerGroups.IsEmpty;
-            if (time.SecondsSinceDayBegan >= _arrivalSeconds || dayAboutToEnd)
-                Spawn();
+            if (lastGroupArrived || dayAboutToEnd)
+                Spawn(time);
         }
 
-        private void AnnounceCountdown()
+        private void Spawn(STime time)
         {
-            if (_countdownAnnounced || BossSettings.CountdownSeconds <= 0)
-                return;
-
-            _countdownAnnounced = true;
-            // TODO: step 8 replaces this with the on-screen countdown.
-            Mod.Logger.LogInfo($"Boss arriving in {BossSettings.CountdownSeconds}s");
-        }
-
-        private void Spawn()
-        {
-            _done = true;
+            BossToday.Arrived = true;
+            BossToday.ArrivedAt = time.TimeOfDay;
+            Mod.Logger.LogInfo($"Boss arriving now ({Describe(time)})");
             BossSpawner.SpawnBossGroup(World, EntityManager);
+        }
+
+        private string Describe(STime time)
+        {
+            return $"day {Mathf.RoundToInt(time.TimeOfDayUnbounded * 100f)}% through, " +
+                   $"{_scheduledCustomers.CalculateEntityCount()} normal group(s) still to arrive, " +
+                   $"{_customerGroups.CalculateEntityCount()} group(s) in restaurant";
         }
     }
 }

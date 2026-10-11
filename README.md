@@ -10,7 +10,7 @@ Every few days, a boss walks into your restaurant and orders **every dish on you
 - **Single customer or a full boss table.** Face one very hungry customer, or a whole group sized to your current tables.
 - **Configurable schedule.** Bosses can turn up every day or as rarely as every 15 days, and keep coming in overtime.
 - **During the day or at closing time.** Choose whether the boss arrives mid-service or as the last group of the day.
-- **Arrival countdown and warning.** A "Boss in Ns" countdown before they arrive and a gentle "Warning: Boss" on arrival. The warning uses a soft fade, never a hard flash.
+- **Boss marker on the timeline.** Just like rushes, a marker on the day timeline shows when the boss is due, so you can prepare.
 - **Scaled patience.** Bosses get extra patience for each additional item they order, so a big menu is tough but fair.
 - **Big rewards.** Every dish served to a boss pays a multiple of its normal price.
 
@@ -28,8 +28,7 @@ All settings are in the **BossUp!** preferences menu (main menu and pause menu).
 | Max orders per phase | 4 / 8 / 12 / Unlimited | 8 |
 | Patience scaling | Low / Medium / High | Medium |
 | Bonus multiplier | 1x / 1.5x / 2x / 2.5x / 3x / 4x / 5x | 3x |
-| Arrival countdown | Off / 10s / 20s / 30s | 20s |
-| Boss warning | Off / On | On |
+| Boss marker on timeline | Off / On | On |
 
 **Orders:** *Menu items* means one of each dish on the menu. *Include variants* means one of each version of a dish (for example, each burger topping combination), so use **Max orders per phase** to keep it sane.
 

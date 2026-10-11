@@ -35,8 +35,7 @@ namespace BossUp
         private const string MAX_ORDERS_PER_PHASE = "MaxOrdersPerPhase";
         private const string PATIENCE_SCALING = "PatienceScaling";
         private const string BONUS_MULTIPLIER = "BonusMultiplier";
-        private const string COUNTDOWN_SECONDS = "CountdownSeconds";
-        private const string WARNING = "Warning";
+        private const string TIMELINE_MARKER = "TimelineMarker";
 
         private static PreferenceSystemManager _prefs;
 
@@ -51,8 +50,8 @@ namespace BossUp
         public static float PatienceScaling => _prefs.Get<float>(PATIENCE_SCALING);
         /// <summary>Multiplier applied to the normal reward of every dish served to a boss.</summary>
         public static float BonusMultiplier => _prefs.Get<float>(BONUS_MULTIPLIER);
-        public static int CountdownSeconds => _prefs.Get<int>(COUNTDOWN_SECONDS);
-        public static bool Warning => _prefs.Get<bool>(WARNING);
+        /// <summary>Show the boss's arrival time on the day timeline, like rushes.</summary>
+        public static bool TimelineMarker => _prefs.Get<bool>(TIMELINE_MARKER);
 
         internal static void Register()
         {
@@ -68,6 +67,9 @@ namespace BossUp
 
                 .AddLabel("Bosses")
                 .AddOption(ENABLED, true, new[] { false, true }, new[] { "Off", "On" })
+
+                .AddLabel("Boss marker on timeline")
+                .AddOption(TIMELINE_MARKER, true, new[] { false, true }, new[] { "Off", "On" })
 
                 .AddSubmenu("Schedule", "Schedule")
                     .AddLabel("Schedule (host only)")
@@ -112,16 +114,6 @@ namespace BossUp
                     .AddSpacer()
                 .SubmenuDone()
 
-                .AddSubmenu("Alerts", "Alerts")
-                    .AddLabel("Alerts (host only)")
-                    .AddHostStatusConditionalBlocker()
-                    .AddLabel("Arrival countdown")
-                    .AddOption(COUNTDOWN_SECONDS, 20, new[] { 0, 10, 20, 30 }, new[] { "Off", "10s", "20s", "30s" })
-                    .AddLabel("Boss warning")
-                    .AddOption(WARNING, true, new[] { false, true }, new[] { "Off", "On" })
-                    .ConditionalBlockerDone()
-                    .AddSpacer()
-                .SubmenuDone()
 
                 .ConditionalBlockerDone()
                 .AddSpacer()
