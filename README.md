@@ -85,3 +85,7 @@ These are ideas I'd like to add in a future version. They haven't been checked f
 - **Walkout options:** choose what happens when a boss walks out: *End game* (as now) or *Just lose bonus*, where the boss group leaves without paying but the game carries on.
 - **Plate assist:** an option to receive extra plates on boss days.
 - **Special dish support:** bring cakes, tacos and other special-case dishes into boss orders, one at a time.
+
+## License
+
+BossUp! is released under the [MIT License](LICENSE).

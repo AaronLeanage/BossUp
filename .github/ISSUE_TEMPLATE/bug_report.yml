@@ -1,0 +1,90 @@
+name: Bug report
+description: Something in BossUp! isn't working as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! The more detail you give, the easier it is to fix.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem. Screenshots or clips are very welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can the bug be triggered? Include the day number and which dishes were on the menu if it seems relevant.
+      placeholder: |
+        1. Start a run with ...
+        2. Wait for the boss on day ...
+        3. ...
+    validations:
+      required: false
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: BossUp! version
+      description: Shown in Player.log as "BossUp! vX.Y.Z loaded".
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: play-mode
+    attributes:
+      label: How were you playing?
+      options:
+        - Single player
+        - Multiplayer (I was the host)
+        - Multiplayer (I was a client)
+    validations:
+      required: true
+
+  - type: textarea
+    id: settings
+    attributes:
+      label: BossUp! settings
+      description: Your settings from the BossUp! menu (in multiplayer, the host's settings).
+      placeholder: |
+        Boss frequency: Every 15 days
+        Arrival: During day
+        Boss party: Single customer
+        Orders: Menu items
+        Min / Max orders per phase: 5 / 8
+        Patience scaling: Medium
+        Bonus multiplier: 3x
+    validations:
+      required: false
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other mods installed
+      description: Other mods can clash with BossUp!, so please list them.
+    validations:
+      required: false
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Player.log
+      description: |
+        Please attach your `Player.log` from the session where the bug happened (drag the file into this box). On Windows it's at:
+        `%USERPROFILE%\AppData\LocalLow\It's Happening\PlateUp\Player.log`
+        The log is overwritten each time the game starts, so grab it before relaunching. It may include your Steam name and folder paths.
+    validations:
+      required: false
