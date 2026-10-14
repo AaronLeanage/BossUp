@@ -1,4 +1,5 @@
 using System.Reflection;
+using BossUp.Boss;
 using BossUp.Views;
 using HarmonyLib;
 using Kitchen;
@@ -21,6 +22,7 @@ namespace BossUp
 
         internal static KitchenLogger Logger;
         internal static Harmony Harmony;
+        internal static BossBonusText BossBonusText;
 
         public Mod() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
 
@@ -38,6 +40,8 @@ namespace BossUp
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             BossSettings.Register();
+
+            BossBonusText = AddGameDataObject<BossBonusText>();
 
             ViewUtils.RegisterView(BossTimelineView.VIEW_TYPE_NAME, typeof(SBossTimelineView), typeof(BossTimelineView), ViewMode.Screen, Vector3.zero);
         }

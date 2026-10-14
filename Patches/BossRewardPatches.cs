@@ -41,8 +41,8 @@ namespace BossUp.Patches
 
             reward.Amount += bonus;
             em.SetComponentData(group, reward);
-            // Record it like any other flat bonus so the end-of-day breakdown adds up.
-            CommitCompletedGroups.AddEvent(ctx, group, 0, bonus);
+            // Record it under its own "Boss Bonus" row so the end-of-day breakdown adds up.
+            CommitCompletedGroups.AddEvent(ctx, group, Mod.BossBonusText.ID, bonus);
         }
     }
 }

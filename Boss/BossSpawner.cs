@@ -2,6 +2,7 @@ using System.Linq;
 using BossUp.Components;
 using Kitchen;
 using KitchenData;
+using KitchenLib.References;
 using Unity.Entities;
 using UnityEngine;
 
@@ -32,9 +33,36 @@ namespace BossUp.Boss
             int size = PickGroupSize(em);
             Entity group = creator.NewGroup(generic, size, false);
             em.AddComponent<CBossGroup>(group);
+            CrownMembers(em, group);
 
             Mod.Logger.LogInfo($"Boss group spawned ({size} member{(size == 1 ? "" : "s")})");
             return group;
+        }
+
+        /// <summary>
+        /// Puts the game's crown hat on every boss member. Customers wear hats through the same
+        /// <see cref="CPlayerCosmetics"/> component as players (themed restaurant settings use it), and the
+        /// game's own cosmetic view syncs it to every player. Replaces any themed hat.
+        /// </summary>
+        private static void CrownMembers(EntityManager em, Entity group)
+        {
+            if (!GameData.Main.TryGet<PlayerCosmetic>(PlayerCosmeticReferences.CrownHat, out PlayerCosmetic crown))
+            {
+                Mod.Logger.LogWarning("Crown hat not found, boss will not wear a crown");
+                return;
+            }
+
+            DynamicBuffer<CGroupMember> members = em.GetBuffer<CGroupMember>(group);
+            for (int i = 0; i < members.Length; i++)
+            {
+                Entity customer = members[i];
+                if (!em.HasComponent<CPlayerCosmetics>(customer))
+                    continue;
+
+                CPlayerCosmetics cosmetics = em.GetComponentData<CPlayerCosmetics>(customer);
+                cosmetics.Set(CosmeticType.Hat, crown.ID);
+                em.SetComponentData(customer, cosmetics);
+            }
         }
 
         private static int PickGroupSize(EntityManager em)

@@ -80,7 +80,7 @@ namespace BossUp
                     .AddLabel("Boss frequency")
                     .AddOption(EVERY_X_DAYS, 15, days, dayStrings)
                     .AddLabel("Arrival")
-                    .AddOption(ARRIVAL, (int)BossArrival.EndOfDay,
+                    .AddOption(ARRIVAL, (int)BossArrival.DuringDay,
                         new[] { (int)BossArrival.DuringDay, (int)BossArrival.EndOfDay },
                         new[] { "During day", "End of day" })
                     .ConditionalBlockerDone()
@@ -99,7 +99,7 @@ namespace BossUp
                         new[] { (int)BossOrderMode.MenuItems, (int)BossOrderMode.IncludeVariants },
                         new[] { "Menu items", "Include variants" })
                     .AddLabel("Min orders per phase")
-                    .AddOption(MIN_ORDERS_PER_PHASE, 0, new[] { 0, 3, 5, 8 }, new[] { "Off", "3", "5", "8" })
+                    .AddOption(MIN_ORDERS_PER_PHASE, 5, new[] { 0, 3, 5, 8 }, new[] { "Off", "3", "5", "8" })
                     .AddLabel("Max orders per phase")
                     .AddOption(MAX_ORDERS_PER_PHASE, 8, new[] { 4, 8, 12, 0 }, new[] { "4", "8", "12", "Unlimited" })
                     .ConditionalBlockerDone()
