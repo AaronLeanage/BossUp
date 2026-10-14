@@ -52,7 +52,7 @@ If you're not installing from the Workshop, put the DLL in PlateUp's `Mods` fold
 PlateUp\Mods\BossUp\content\BossUp.dll
 ```
 
-An extra folder level (for example `Mods\BossUp-0.1.0\BossUp\content\BossUp.dll`) stops the mod loading, and `Player.log` shows `no ModPacks found`.
+An extra folder level (for example `Mods\BossUp-1.0.0\BossUp\content\BossUp.dll`) stops the mod loading, and `Player.log` shows `no ModPacks found`.
 
 ## Multiplayer
 
@@ -67,3 +67,21 @@ Every player needs BossUp! installed. The host controls all boss settings; every
 ## Known limitations
 
 - Some dishes with unusual ordering rules (such as tacos or cakes) may be left out of a boss's order.
+
+## Ideas for v2
+
+These are ideas I'd like to add in a future version. They haven't been checked for feasibility yet, so some may change or never arrive if they turn out not to be possible.
+
+- **Boss types:**
+  - *Critic:* half patience, double bonus.
+  - *Glutton:* orders again after eating.
+  - *Picky:* no sides, but every variant of the mains.
+  - *Impatient:* patience drains faster as the day goes on.
+  - *Messy:* leaves extra mess behind.
+  - *VIP:* other customers wait while the boss eats.
+- **Escalation:** each boss you beat makes the next one harder and more rewarding.
+- **Reserved table:** an appliance that holds a table for the boss group.
+- **HQ trophy:** a decoration in your HQ that tracks bosses beaten across runs.
+- **Walkout options:** choose what happens when a boss walks out: *End game* (as now) or *Just lose bonus*, where the boss group leaves without paying but the game carries on.
+- **Plate assist:** an option to receive extra plates on boss days.
+- **Special dish support:** bring cakes, tacos and other special-case dishes into boss orders, one at a time.
